@@ -1,8 +1,5 @@
-import {FunctionComponent} from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
-
-type Props = {};
 
 const Container = styled.div`
   display: flex;
@@ -10,20 +7,39 @@ const Container = styled.div`
   vertical-align: center;
 `;
 
-const HomeButton = styled.button`
-  margin: 1rem 1rem;
+const Button = styled.button`
+  margin: 1rem;
   color: black;
   font-size: large;
   background: white;
   border-color: black;
   border-width: thin;
+  padding: 1rem;
+  width: 8rem;
 `;
 
-const Navbar: FunctionComponent<Props> = props => {
+const LoginButton = styled.button`
+  margin-left: auto;
+  color: black;
+  font-size: large;
+  background: white;
+  border-color: black;
+  border-width: thin;
+  padding: 1rem;
+  width: 8rem;
+`;
+
+const Navbar = () => {
   return (
     <Container>
       <Link href={'/'}>
-        <HomeButton>HOME</HomeButton>
+        <Button>Quna</Button>
+      </Link>
+      <Link href={'/'}>
+        <Button>질문 목록</Button>
+      </Link>
+      <Link href={'/'}>
+        <LoginButton>로그인</LoginButton>
       </Link>
     </Container>
   );
