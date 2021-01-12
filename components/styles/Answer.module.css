@@ -1,16 +1,12 @@
 .container {
+  display: flex;
   width: 80%;
   background-color: var(--light-yellow);
   margin-left: 10%;
-  margin-top: 1rem;
+  margin-top: 2rem;
   padding: 0.1rem;
   border-radius: 5px;
   box-shadow: 5px 5px 15px #aaaaaa;
-}
-
-.top {
-  display: flex !important;
-  width: 100% !important;
 }
 
 .left {
