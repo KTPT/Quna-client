@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Layout from '../components/Layout';
-import Asking from '../components/Asking';
+import Link from 'next/link';
+import Navbar from '../components/Navbar';
 
 export default function Home() {
   return (
@@ -9,10 +8,10 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
-      <Layout>
-        <div>Quna</div>
-        <Asking />
-      </Layout>
+      <Navbar />
+      <Link href={'/answer/create'}>
+        <button>답변 남기기</button>
+      </Link>
     </>
   );
 }
