@@ -1,7 +1,6 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-import Layout from '../components/Layout';
-import Asking from '../components/Asking';
+import Question from '../components/Question';
+import QuestionList from '../components/QuestionList';
 
 export default function Home() {
   return (
@@ -9,10 +8,10 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
-      <Layout>
-        <div>Quna</div>
-        <Asking />
-      </Layout>
+      
+      <Question/>
+      <QuestionList/>
+
     </>
   );
 }
