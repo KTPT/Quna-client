@@ -1,9 +1,9 @@
-import styles from './styles/Question.module.css';
+import styles from './styles/Answer.module.css';
 
-export interface QuestionDetailProps {
+export interface AnswerDetailProps {
   data: {
     id: number;
-    title: string;
+    questionId: number;
     contents: string;
     responderId?: number;
     createdAt: string;
@@ -11,21 +11,20 @@ export interface QuestionDetailProps {
   };
 }
 
-export function QuestionDetail({data}: QuestionDetailProps) {
+export function AnswerDetail({data}: AnswerDetailProps) {
   return data ? (
     <div className={styles.container}>
       <div className={styles.top}>
         <div className={styles.left}>
-          <div className={styles.avatar}>
-            <img src="/jobs_avatar.png" alt="avatar" />
-          </div>
+          {/*<div className={styles.avatar}>*/}
+          {/*<img src="/jobs_avatar.png" alt="avatar" />*/}
+          {/*</div>*/}
           <div className={styles.created}>{data.createdAt}</div>
         </div>
-        <div className={styles.title}>{data.title}</div>
       </div>
       <div className={styles.contents}>{data.contents}</div>
     </div>
   ) : (
-    <>질문이 없다</>
+    <>답변이 없다</>
   );
 }
