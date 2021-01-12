@@ -1,38 +1,35 @@
-import Document, {Head, Main, NextScript} from 'next/document';
+import Document, {DocumentContext} from 'next/document';
 import {ServerStyleSheet} from 'styled-components';
 
-export default class MyDocument extends Document {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  static getInitialProps({renderPage}) {
+class CustomDocument extends Document {
+  static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
+    const originalRenderPage = ctx.renderPage;
 
-    const page = renderPage(
-      (App: JSX.IntrinsicAttributes) => (props: JSX.IntrinsicAttributes) =>
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        sheet.collectStyles(<App {...props} />)
-    );
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
+        });
 
-    const styleTags = sheet.getStyleElement();
+      const initialProps = await Document.getInitialProps(ctx);
 
-    return {...page, styleTags};
-  }
-
-  render() {
-    return (
-      <html>
-        <Head>
-          <title>My page</title>
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore*/}
-          {this.props.styleTags}
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
-      </html>
-    );
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        ),
+      };
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    } finally {
+      sheet.seal();
+    }
   }
 }
+
+export default CustomDocument;

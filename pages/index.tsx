@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import Link from 'next/link';
-import Navbar from '../components/Navbar';
+import Question from '../components/Question';
+import QuestionList from '../components/QuestionList';
 
 export default function Home() {
   return (
@@ -8,10 +8,8 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
-      <Navbar />
-      <Link href={'/answer/create'}>
-        <button>답변 남기기</button>
-      </Link>
+      <Question />
+      <QuestionList />
     </>
   );
 }

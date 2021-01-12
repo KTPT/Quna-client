@@ -1,38 +1,39 @@
 import Layout from '../../components/Layout';
 import * as React from 'react';
+import {QuestionDetail} from '../../components/QuestionDetail';
 import {
-  QuestionDetail,
-  QuestionDetailProps,
-} from '../../components/QuestionDetail';
-import {GetStaticPaths, GetStaticPropsResult} from 'next';
+  GetStaticPaths,
+  GetStaticPropsContext,
+  GetStaticPropsResult,
+} from 'next';
 import {
   getAllPostIds,
   getQuestionDetailData,
 } from '../../components/lib/questions';
 import {getAnswersDetailData} from '../../components/lib/answers';
-import {AnswerDetail, AnswerDetailProps} from '../../components/AnswerDetail';
+import {AnswerDetail} from '../../components/AnswerDetail';
 import {Button} from '../../components/Button';
+import {ParsedUrlQuery} from 'querystring';
+import {AnswerModel, QuestionModel} from '../../types/model';
 
 interface Props {
-  questionData: QuestionDetailProps;
-  answersData: AnswerDetailProps[];
+  questionData: QuestionModel;
+  answersData: AnswerModel[];
 }
 
-export default function Question(props: Props) {
-  const questionData = props.questionData;
-  const answersData = props.answersData;
+export default function Question({answersData, questionData}: Props) {
   return questionData && answersData ? (
     <Layout>
-      <QuestionDetail data={questionData.data} />
+      <QuestionDetail props={questionData} />
       <Button content={'나도 답변 달래요!'} />
       {answersData.map(answer => (
-        <AnswerDetail key={answer.data.id} data={answer.data} />
+        <AnswerDetail key={answer.id} props={answer} />
       ))}
       <Button content={'나도 답변 달래요!'} />
     </Layout>
   ) : (
     <Layout>
-      <QuestionDetail data={questionData.data} />
+      <QuestionDetail props={questionData} />
     </Layout>
   );
 }
@@ -45,12 +46,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export async function getStaticProps(
-  context
-): Promise<GetStaticPropsResult<Props>> {
-  const params = context.params;
-  const questionData = await getQuestionDetailData(params.id as string);
-  const answersData = await getAnswersDetailData(params.id as string);
+interface Params extends ParsedUrlQuery {
+  id: string;
+}
+
+export async function getStaticProps({
+  params,
+}: GetStaticPropsContext<Params>): Promise<GetStaticPropsResult<Props>> {
+  const {id} = params as Params;
+  const questionData = await getQuestionDetailData(id);
+  const answersData = await getAnswersDetailData(id);
   return {
     props: {
       questionData,

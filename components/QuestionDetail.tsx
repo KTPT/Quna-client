@@ -1,30 +1,80 @@
-import styles from './styles/Question.module.css';
+import styled from 'styled-components';
+import {QuestionModel} from '../types/model';
+import {ReactPropTypes} from 'react';
 
-export interface QuestionDetailProps {
-  data: {
-    id: number;
-    title: string;
-    contents: string;
-    responderId?: number;
-    createdAt: string;
-    lastModifiedAt: string;
-  };
-}
+const Container = styled.div`
+  width: 80%;
+  background-color: var(--light-yellow);
+  /*margin-left: 10%;*/
+  margin-top: 0.5rem;
+  padding: 0.1rem;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px #aaaaaa;
+`;
 
-export function QuestionDetail({data}: QuestionDetailProps) {
-  return data ? (
-    <div className={styles.container}>
-      <div className={styles.top}>
-        <div className={styles.left}>
-          <div className={styles.avatar}>
-            <img src="/jobs_avatar.png" alt="avatar" />
-          </div>
-          <div className={styles.created}>{data.createdAt}</div>
-        </div>
-        <div className={styles.title}>{data.title}</div>
-      </div>
-      <div className={styles.contents}>{data.contents}</div>
-    </div>
+const Top = styled.div`
+  display: flex !important;
+  width: 100% !important;
+`;
+
+const Left = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100px;
+  height: 100%;
+`;
+
+const Avatar = styled.div`
+  width: 100px;
+  height: 100px;
+`;
+
+const AvatarImage = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  padding: 0.5rem;
+  border-radius: 50%;
+  -webkit-user-drag: none;
+`;
+
+const Created = styled.div`
+  max-width: 100%;
+  max-height: 100%;
+  color: gray;
+`;
+
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  margin: 0.5rem;
+  border: var(--dark-yellow) 3px solid;
+  font-size: x-large;
+`;
+
+const Contents = styled.div`
+  padding: 1rem;
+  margin: 0.5rem;
+  border: var(--dark-yellow) 3px solid;
+  line-height: 130%;
+`;
+
+export function QuestionDetail({props}: {props: QuestionModel}) {
+  return props ? (
+    <Container>
+      <Top>
+        <Left>
+          <Avatar>
+            <AvatarImage src="/jobs_avatar.png" alt="avatar" />
+          </Avatar>
+          <Created>{props.createdAt}</Created>
+        </Left>
+        <Title>{props.title}</Title>
+      </Top>
+      <Contents>{props.contents}</Contents>
+    </Container>
   ) : (
     <>질문이 없다</>
   );
