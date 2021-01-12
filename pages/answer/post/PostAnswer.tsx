@@ -35,7 +35,7 @@ const SubmitButton = styled.button`
   height: 2rem;
 `;
 
-const index = () => {
+export default function PostAnswer() {
   const [contents, setContents] = useState('');
 
   const createAnswer = async () => {
@@ -69,6 +69,4 @@ const index = () => {
       </Container>
     </>
   );
-};
-
-export default index;
+}
