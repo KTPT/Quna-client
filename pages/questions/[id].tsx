@@ -51,7 +51,6 @@ export async function getStaticProps(
   const params = context.params;
   const questionData = await getQuestionDetailData(params.id as string);
   const answersData = await getAnswersDetailData(params.id as string);
-  console.log(questionData.data.title);
   return {
     props: {
       questionData,
