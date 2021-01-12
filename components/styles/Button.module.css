@@ -1,0 +1,21 @@
+.container {
+  max-width: 500px;
+  cursor: pointer;
+  background: inherit;
+  box-shadow: 5px 5px 15px #aaaaaa;
+  border-radius: 5px;
+  background-color: var(--light-yellow);
+  border: none;
+  margin-top: 2rem;
+  padding: 1rem 3rem;
+  font-size: x-large;
+  user-select: none;
+}
+
+.container:hover {
+  background-color: var(--yellow);
+}
+
+.container:focus {
+  outline: none;
+}

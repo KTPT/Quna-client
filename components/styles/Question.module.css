@@ -1,7 +1,7 @@
 .container {
   width: 80%;
   background-color: var(--light-yellow);
-  margin-left: 10%;
+  /*margin-left: 10%;*/
   margin-top: 0.5rem;
   padding: 0.1rem;
   border-radius: 5px;
@@ -31,6 +31,7 @@
   max-height: 100%;
   padding: 0.5rem;
   border-radius: 50%;
+  -webkit-user-drag: none;
 }
 
 .created {

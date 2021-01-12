@@ -11,6 +11,7 @@ import {
 } from '../../components/lib/questions';
 import {getAnswersDetailData} from '../../components/lib/answers';
 import {AnswerDetail, AnswerDetailProps} from '../../components/AnswerDetail';
+import {Button} from '../../components/Button';
 
 interface Props {
   questionData: QuestionDetailProps;
@@ -23,9 +24,11 @@ export default function Question(props: Props) {
   return questionData && answersData ? (
     <Layout>
       <QuestionDetail data={questionData.data} />
+      <Button content={'나도 답변 달래요!'} />
       {answersData.map(answer => (
         <AnswerDetail key={answer.data.id} data={answer.data} />
       ))}
+      <Button content={'나도 답변 달래요!'} />
     </Layout>
   ) : (
     <Layout>
