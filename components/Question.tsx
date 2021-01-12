@@ -47,7 +47,7 @@ const InputMain = styled.textarea`
 `;
 
 const ButtonNext = styled.button`
-  background-color: var(--yello);
+  background-color: var(--yellow);
   width: 15%;
   height: 80px;
   border-radius: 7px;
@@ -58,7 +58,7 @@ const ButtonNext = styled.button`
 `;
 
 const ButtonSubmit = styled.button`
-  background-color: var(--yello);
+  background-color: var(--yellow);
   border: 0.1px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
   width: 100%;

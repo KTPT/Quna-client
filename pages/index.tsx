@@ -8,10 +8,8 @@ export default function Home() {
       <Head>
         <title>Home</title>
       </Head>
-      
-      <Question/>
-      <QuestionList/>
-
+      <Question />
+      <QuestionList />
     </>
   );
 }
