@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import Link from 'next/link';
 
-export type Content = {
+export type Props = {
   content: string;
+  path: string;
 };
 
 const Container = styled.button`
@@ -26,6 +28,10 @@ const Container = styled.button`
   }
 `;
 
-export function Button({content}: Content) {
-  return <Container type="submit">{content}</Container>;
+export function Button({content, path}: Props) {
+  return (
+    <Container type="submit">
+      <Link href={`${path}`}>{content}</Link>
+    </Container>
+  );
 }
