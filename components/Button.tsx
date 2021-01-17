@@ -30,8 +30,8 @@ const Container = styled.button`
 
 export function Button({content, path}: Props) {
   return (
-    <Container type="submit">
-      <Link href={`${path}`}>{content}</Link>
-    </Container>
+    <Link href={`${path}`}>
+      <Container type="submit">{content}</Container>
+    </Link>
   );
 }
