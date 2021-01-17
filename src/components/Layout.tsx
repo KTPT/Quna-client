@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as React from 'react';
 
 const Container = styled.div`
   width: 60vw;
@@ -14,10 +15,12 @@ const Main = styled.main`
   align-items: center;
 `;
 
-export default function Layout({children}: {children: React.ReactNode}) {
+const Layout: React.FC<{children: React.ReactNode}> = ({children}) => {
   return (
     <Container>
       <Main>{children}</Main>
     </Container>
   );
-}
+};
+
+export default Layout;

@@ -1,4 +1,4 @@
-import {QuestionModel} from '../../types/model';
+import {Model, Question} from '../types/model';
 
 export function getAllPostIds() {
   return [
@@ -12,7 +12,7 @@ export function getAllPostIds() {
 
 export async function getQuestionDetailData(
   id: string
-): Promise<QuestionModel> {
+): Promise<Model<Question>> {
   // TODO axios를 이용하여 서버로 정보를 가져와야 한다.
 
   return {

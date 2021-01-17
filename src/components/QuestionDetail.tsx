@@ -1,15 +1,20 @@
 import styled from 'styled-components';
-import {AnswerModel} from '../types/model';
+import {Model, Question} from '../types/model';
+import * as React from 'react';
 
 const Container = styled.div`
-  display: flex;
   width: 80%;
   background-color: var(--light-yellow);
   /*margin-left: 10%;*/
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   padding: 0.1rem;
   border-radius: 5px;
   box-shadow: 5px 5px 15px #aaaaaa;
+`;
+
+const Top = styled.div`
+  display: flex !important;
+  width: 100% !important;
 `;
 
 const Left = styled.div`
@@ -39,6 +44,16 @@ const Created = styled.div`
   color: gray;
 `;
 
+const Title = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  margin: 0.5rem;
+  border: var(--dark-yellow) 3px solid;
+  font-size: x-large;
+`;
+
 const Contents = styled.div`
   padding: 1rem;
   margin: 0.5rem;
@@ -46,18 +61,23 @@ const Contents = styled.div`
   line-height: 130%;
 `;
 
-export function AnswerDetail({props}: {props: AnswerModel}) {
+const QuestionDetail: React.FC<{props: Model<Question>}> = ({props}) => {
   return props ? (
     <Container>
-      <Left>
-        <Avatar>
-          <AvatarImage src="/jobs_avatar.png" alt="avatar" />
-        </Avatar>
-        <Created>{props.createdAt}</Created>
-      </Left>
+      <Top>
+        <Left>
+          <Avatar>
+            <AvatarImage src="/jobs_avatar.png" alt="avatar" />
+          </Avatar>
+          <Created>{props.createdAt}</Created>
+        </Left>
+        <Title>{props.title}</Title>
+      </Top>
       <Contents>{props.contents}</Contents>
     </Container>
   ) : (
-    <>답변이 없다</>
+    <>질문이 없다</>
   );
-}
+};
+
+export default QuestionDetail;

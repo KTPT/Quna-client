@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Link from 'next/link';
+import * as React from 'react';
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const LoginButton = styled.button`
   width: 8rem;
 `;
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   return (
     <Container>
       <Link href={'/'}>

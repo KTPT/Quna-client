@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-export type Content = {
-  content: string;
-};
+import * as React from 'react';
 
 const Container = styled.button`
   max-width: 500px;
@@ -26,6 +23,8 @@ const Container = styled.button`
   }
 `;
 
-export function Button({content}: Content) {
+const Button: React.FC<{content: string}> = ({content}) => {
   return <Container type="submit">{content}</Container>;
-}
+};
+
+export default Button;

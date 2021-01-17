@@ -67,7 +67,7 @@ const ButtonSubmit = styled.button`
   color: rgba(0, 0, 0, 0.8);
 `;
 
-export default function Question() {
+const QuestionInput: React.FC = () => {
   const [isFolded, setIsFolded] = useState<boolean>(true);
   const [title, setTitle] = useState<string>('');
   const [mainContent, setMainContent] = useState<string>('');
@@ -106,4 +106,6 @@ export default function Question() {
       )}
     </Container>
   );
-}
+};
+
+export default QuestionInput;

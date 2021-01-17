@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
@@ -35,7 +36,7 @@ const SubmitButton = styled.button`
   height: 2rem;
 `;
 
-export default function PostAnswer() {
+const PostAnswer: React.FC = () => {
   const [contents, setContents] = useState('');
 
   const createAnswer = async () => {
@@ -69,4 +70,6 @@ export default function PostAnswer() {
       </Container>
     </>
   );
-}
+};
+
+export default PostAnswer;
