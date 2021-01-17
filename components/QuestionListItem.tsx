@@ -1,5 +1,7 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import Questioner from './Questioner';
+import {QuestionModel} from '../types/model';
 
 const Container = styled.div`
   width: 100%;
@@ -8,6 +10,9 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const Title = styled.div`
@@ -16,11 +21,18 @@ const Title = styled.div`
   font-weight: 600;
 `;
 
-export default function QuestionListItem() {
+interface Props {
+  questionData: QuestionModel;
+}
+
+export default function QuestionListItem({questionData}: Props) {
+  const link = '/questions/' + questionData.id;
   return (
-    <Container>
-      <Questioner />
-      <Title>이게 궁금해용</Title>
-    </Container>
+    <Link href={link}>
+      <Container>
+        <Questioner />
+        <Title>{questionData.title}</Title>
+      </Container>
+    </Link>
   );
 }
