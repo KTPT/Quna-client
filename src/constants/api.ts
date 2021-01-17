@@ -7,5 +7,5 @@ export const API = (
   model === 'Question'
     ? `${BASE_URL}/questions`
     : model === 'Answer'
-    ? `${BASE_URL}/questions${questionsId}/answers`
+    ? `${BASE_URL}/questions/${questionsId}/answers`
     : '';

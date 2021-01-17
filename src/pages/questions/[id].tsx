@@ -18,15 +18,15 @@ interface Props {
   answersData: Model<Answer>[];
 }
 
-const Question: React.FC<Props> = ({answersData, questionData}) => {
+const ShowQuestion: React.FC<Props> = ({answersData, questionData}) => {
   return questionData && answersData ? (
     <Layout>
       <QuestionDetail props={questionData} />
-      <Button content={'나도 답변 달래요!'} />
+      <Button id={questionData.id} content={'나도 답변 달래요!'} />
       {answersData.map(answer => (
         <AnswerDetail key={answer.id} props={answer} />
       ))}
-      <Button content={'나도 답변 달래요!'} />
+      <Button id={questionData.id} content={'나도 답변 달래요!'} />
     </Layout>
   ) : (
     <Layout>
@@ -61,4 +61,4 @@ export async function getStaticProps({
   };
 }
 
-export default Question;
+export default ShowQuestion;

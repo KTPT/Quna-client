@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import * as React from 'react';
+import Router from 'next/router';
 
 const Container = styled.button`
   max-width: 500px;
@@ -23,8 +24,15 @@ const Container = styled.button`
   }
 `;
 
-const Button: React.FC<{content: string}> = ({content}) => {
-  return <Container type="submit">{content}</Container>;
+const Button: React.FC<{id: number; content: string}> = ({id, content}) => {
+  return (
+    <Container
+      type="submit"
+      onClick={() => Router.push(`/answer/post?id=${id}`, '/answer/post')}
+    >
+      {content}
+    </Container>
+  );
 };
 
 export default Button;

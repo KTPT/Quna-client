@@ -6,10 +6,23 @@ import useSWR from 'swr';
 import {API} from '../constants/api';
 import fetcher from '../utils/fetcher';
 import QuestionInput from '../components/QuestionInput';
+import {Model, Question} from '../types/model';
 
 const Home: React.FC = () => {
   const {data: questionAPI} = useSWR(API('Question'), fetcher);
-  const [questions, setQuestions] = useState([]);
+
+  const init: Model<Question>[] = [
+    {
+      id: 1,
+      title: 'title',
+      contents: 'contents',
+      responderId: null,
+      createdAt: '',
+      lastModifiedAt: '',
+    },
+  ];
+
+  const [questions, setQuestions] = useState(init);
 
   useEffect(() => {
     if (questionAPI) {
