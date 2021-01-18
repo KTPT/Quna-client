@@ -1,8 +1,11 @@
+import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
 import Navbar from '../../../components/Navbar';
 import axios from 'axios';
+import {useRouter} from 'next/router';
+import {API} from '../../../constants/api';
 
 const Container = styled.div`
   display: flex;
@@ -35,18 +38,21 @@ const SubmitButton = styled.button`
   height: 2rem;
 `;
 
-export default function Index() {
+const PostAnswer: React.FC = () => {
   const [contents, setContents] = useState('');
+  const router = useRouter();
 
   const createAnswer = async () => {
     if (contents.length === 0) {
       alert('답변을 입력해주세요');
       return;
     }
-
-    const {status, data} = await axios.post('http://localhost:8080/answers', {
-      contents,
-    });
+    const {status, data} = await axios.post(
+      API('Answer', router.query.id as string),
+      {
+        contents,
+      }
+    );
   };
 
   const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
@@ -69,4 +75,6 @@ export default function Index() {
       </Container>
     </>
   );
-}
+};
+
+export default PostAnswer;

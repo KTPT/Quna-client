@@ -1,10 +1,7 @@
 import styled from 'styled-components';
+import * as React from 'react';
 import Link from 'next/link';
-
-export type Props = {
-  content: string;
-  path: string;
-};
+import {ParsedUrlQueryInput} from 'querystring';
 
 const Container = styled.button`
   max-width: 500px;
@@ -28,10 +25,21 @@ const Container = styled.button`
   }
 `;
 
-export function Button({content, path}: Props) {
-  return (
-    <Link href={`${path}`}>
+const Button: React.FC<{
+  pathname: string;
+  query?: ParsedUrlQueryInput;
+  content: string;
+  hideQuery?: boolean;
+}> = ({pathname, query, content, hideQuery}) => {
+  return hideQuery ? (
+    <Link href={{pathname, query}} as={pathname}>
+      <Container type="submit">{content}</Container>
+    </Link>
+  ) : (
+    <Link href={{pathname, query}}>
       <Container type="submit">{content}</Container>
     </Link>
   );
-}
+};
+
+export default Button;

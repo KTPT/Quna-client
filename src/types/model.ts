@@ -1,4 +1,4 @@
-export interface AnswerModel {
+export interface Answer {
   id: number;
   questionId: number;
   contents: string;
@@ -7,7 +7,7 @@ export interface AnswerModel {
   lastModifiedAt: string;
 }
 
-export interface QuestionModel {
+export interface Question {
   id: number;
   title: string;
   contents: string;
@@ -15,3 +15,5 @@ export interface QuestionModel {
   createdAt: string;
   lastModifiedAt: string;
 }
+
+export type Model<T> = T;

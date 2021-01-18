@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as React from 'react';
 
 const Container = styled.div`
   width: 75px;
@@ -22,11 +23,13 @@ const Name = styled.div`
   text-align: center;
 `;
 
-export default function Questioner() {
+const Questioner: React.FC = () => {
   return (
     <Container>
       <Image src="/images/sample.jpg" alt="sampleImage" />
       <Name>김다희님</Name>
     </Container>
   );
-}
+};
+
+export default Questioner;

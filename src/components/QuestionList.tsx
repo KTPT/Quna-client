@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import QuestionListItem from './QuestionListItem';
+import * as React from 'react';
+import {Model, Question} from '../types/model';
 
 const Container = styled.div`
-  /*Layout 적용 이후 width, margin 변경 요망* */
   width: 60%;
   margin-left: 20%;
   margin-top: 200px;
@@ -10,15 +11,14 @@ const Container = styled.div`
   background-color: var(--white-yellow);
 `;
 
-export default function QuestionList() {
+const QuestionList: React.FC<{data: Model<Question>[]}> = ({data}) => {
   return (
     <Container>
-      <QuestionListItem />
-      <QuestionListItem />
-      <QuestionListItem />
-      <QuestionListItem />
-      <QuestionListItem />
-      <QuestionListItem />
+      {data.map(question => (
+        <QuestionListItem data={question} />
+      ))}
     </Container>
   );
-}
+};
+
+export default QuestionList;

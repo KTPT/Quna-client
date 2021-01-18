@@ -1,42 +1,49 @@
 import Layout from '../../components/Layout';
 import * as React from 'react';
-import {QuestionDetail} from '../../components/QuestionDetail';
+import QuestionDetail from '../../components/QuestionDetail';
 import {
   GetStaticPaths,
   GetStaticPropsContext,
   GetStaticPropsResult,
 } from 'next';
-import {
-  getAllPostIds,
-  getQuestionDetailData,
-} from '../../components/lib/questions';
-import {getAnswersDetailData} from '../../components/lib/answers';
-import {AnswerDetail} from '../../components/AnswerDetail';
-import {Button} from '../../components/Button';
+import {getAllPostIds, getQuestionDetailData} from '../../lib/questions';
+import {getAnswersDetailData} from '../../lib/answers';
+import AnswerDetail from '../../components/AnswerDetail';
+import Button from '../../components/Button';
 import {ParsedUrlQuery} from 'querystring';
-import {AnswerModel, QuestionModel} from '../../types/model';
+import {Answer, Model, Question} from '../../types/model';
 
 interface Props {
-  questionData: QuestionModel;
-  answersData: AnswerModel[];
+  questionData: Model<Question>;
+  answersData: Model<Answer>[];
 }
 
-export default function Question({answersData, questionData}: Props) {
+const ShowQuestion: React.FC<Props> = ({answersData, questionData}) => {
   return questionData && answersData ? (
     <Layout>
       <QuestionDetail props={questionData} />
-      <Button content={'나도 답변 달래요!'} path={'/answer/post'} />
+      <Button
+        content={'나도 답변 달래요!'}
+        pathname={'/answer/post'}
+        query={{id: questionData.id}}
+        hideQuery={true}
+      />
       {answersData.map(answer => (
         <AnswerDetail key={answer.id} props={answer} />
       ))}
-      <Button content={'나도 답변 달래요!'} path={'/answer/post'} />
+      <Button
+        content={'나도 답변 달래요!'}
+        pathname={'/answer/post'}
+        query={{id: questionData.id}}
+        hideQuery={true}
+      />
     </Layout>
   ) : (
     <Layout>
       <QuestionDetail props={questionData} />
     </Layout>
   );
-}
+};
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = getAllPostIds();
@@ -63,3 +70,5 @@ export async function getStaticProps({
     },
   };
 }
+
+export default ShowQuestion;
