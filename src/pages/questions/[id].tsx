@@ -22,11 +22,21 @@ const ShowQuestion: React.FC<Props> = ({answersData, questionData}) => {
   return questionData && answersData ? (
     <Layout>
       <QuestionDetail props={questionData} />
-      <Button id={questionData.id} content={'나도 답변 달래요!'} />
+      <Button
+        content={'나도 답변 달래요!'}
+        pathname={'/answer/post'}
+        query={{id: questionData.id}}
+        hideQuery={true}
+      />
       {answersData.map(answer => (
         <AnswerDetail key={answer.id} props={answer} />
       ))}
-      <Button id={questionData.id} content={'나도 답변 달래요!'} />
+      <Button
+        content={'나도 답변 달래요!'}
+        pathname={'/answer/post'}
+        query={{id: questionData.id}}
+        hideQuery={true}
+      />
     </Layout>
   ) : (
     <Layout>

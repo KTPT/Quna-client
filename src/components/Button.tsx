@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import Router from 'next/router';
+import Link from 'next/link';
+import {ParsedUrlQueryInput} from 'querystring';
 
 const Container = styled.button`
   max-width: 500px;
@@ -24,14 +25,20 @@ const Container = styled.button`
   }
 `;
 
-const Button: React.FC<{id: number; content: string}> = ({id, content}) => {
-  return (
-    <Container
-      type="submit"
-      onClick={() => Router.push(`/answer/post?id=${id}`, '/answer/post')}
-    >
-      {content}
-    </Container>
+const Button: React.FC<{
+  pathname: string;
+  query?: ParsedUrlQueryInput;
+  content: string;
+  hideQuery?: boolean;
+}> = ({pathname, query, content, hideQuery}) => {
+  return hideQuery ? (
+    <Link href={{pathname, query}} as={pathname}>
+      <Container type="submit">{content}</Container>
+    </Link>
+  ) : (
+    <Link href={{pathname, query}}>
+      <Container type="submit">{content}</Container>
+    </Link>
   );
 };
 
