@@ -35,7 +35,7 @@ const SubmitButton = styled.button`
   height: 2rem;
 `;
 
-export default function PostAnswer() {
+export default function Index() {
   const [contents, setContents] = useState('');
 
   const createAnswer = async () => {

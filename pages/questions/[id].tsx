@@ -25,11 +25,11 @@ export default function Question({answersData, questionData}: Props) {
   return questionData && answersData ? (
     <Layout>
       <QuestionDetail props={questionData} />
-      <Button content={'나도 답변 달래요!'} />
+      <Button content={'나도 답변 달래요!'} path={'/answer/post'} />
       {answersData.map(answer => (
         <AnswerDetail key={answer.id} props={answer} />
       ))}
-      <Button content={'나도 답변 달래요!'} />
+      <Button content={'나도 답변 달래요!'} path={'/answer/post'} />
     </Layout>
   ) : (
     <Layout>
