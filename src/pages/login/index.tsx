@@ -40,9 +40,23 @@ const Login: React.FC = () => {
     });
   };
 
+  const validate = (): boolean => {
+    if (input.nickname == null || input.nickname == '') {
+      alert('nickname을 입력해주세요.');
+      return true;
+    }
+    if (input.password == null || input.password == '') {
+      alert('password를 입력해주세요.');
+      return true;
+    }
+    return false;
+  };
+
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (validate()) {
+      return;
+    }
     const request = {...input};
 
     const response = await axios.post(API('Login'), request);
