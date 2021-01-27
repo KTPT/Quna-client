@@ -2,8 +2,9 @@ import React, {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Questioner from './Questioner';
 
-const Container = styled.div`
-  /*Layout 적용 이후 width 변경 요망* */
+const Container = styled.div.attrs({
+  title: 'Container',
+})`
   width: 60%;
   margin-left: 20%;
   background-color: var(--white-yellow);
@@ -12,13 +13,16 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const HeaderContainer = styled.div`
+const HeaderContainer = styled.div.attrs({
+  title: 'HeaderContainer',
+})`
   display: flex;
   flex-direction: row;
   margin-bottom: 10px;
 `;
 
-const InputTitle = styled.input.attrs({
+const TitleInput = styled.input.attrs({
+  title: 'TitleInput',
   type: 'text',
   placeholder: '무엇을 물어볼까요?',
 })`
@@ -35,7 +39,9 @@ const InputTitle = styled.input.attrs({
   }
 `;
 
-const InputMain = styled.textarea`
+const MainInput = styled.textarea.attrs({
+  title: 'MainInput',
+})`
   border: 0.1px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px 0px 0px 7px;
   width: 100%;
@@ -46,7 +52,9 @@ const InputMain = styled.textarea`
   margin-bottom: 10px;
 `;
 
-const ButtonNext = styled.button`
+const NextButton = styled.button.attrs({
+  title: 'NextButton',
+})`
   background-color: var(--yellow);
   width: 15%;
   height: 80px;
@@ -57,7 +65,9 @@ const ButtonNext = styled.button`
   color: rgba(0, 0, 0, 0.8);
 `;
 
-const ButtonSubmit = styled.button`
+const ButtonSubmit = styled.button.attrs({
+  title: 'ButtonSubmit',
+})`
   background-color: var(--yellow);
   border: 0.1px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
@@ -68,12 +78,24 @@ const ButtonSubmit = styled.button`
 `;
 
 const QuestionInput: React.FC = () => {
-  const [isFolded, setIsFolded] = useState<boolean>(true);
+  const [isTitleExist, setIsTitleExist] = useState<boolean>(true);
   const [title, setTitle] = useState<string>('');
   const [mainContent, setMainContent] = useState<string>('');
 
-  const handleClick = () => {
-    setIsFolded(!isFolded);
+  const handleClickNext = () => {
+    if (title !== '') {
+      setIsTitleExist(false);
+    } else {
+      alert('질문 제목을 입력해주세요.');
+    }
+  };
+
+  const handleClickSubmit = () => {
+    if (mainContent !== '') {
+      alert('작성완료');
+    } else {
+      alert('질문 내용을 입력해주세요.');
+    }
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -86,22 +108,22 @@ const QuestionInput: React.FC = () => {
 
   return (
     <Container>
-      {isFolded ? (
+      {isTitleExist ? (
         <>
           <HeaderContainer>
             <Questioner />
-            <InputTitle onChange={handleTitleChange} value={title} />
-            <ButtonNext onClick={handleClick}>Next</ButtonNext>
+            <TitleInput onChange={handleTitleChange} value={title} />
+            <NextButton onClick={handleClickNext}>Next</NextButton>
           </HeaderContainer>
         </>
       ) : (
         <div>
           <HeaderContainer>
             <Questioner />
-            <InputTitle value={title} />
+            <TitleInput value={title} />
           </HeaderContainer>
-          <InputMain onChange={handleMainChange} value={mainContent} />
-          <ButtonSubmit onClick={handleClick}>Submit</ButtonSubmit>
+          <MainInput onChange={handleMainChange} value={mainContent} />
+          <ButtonSubmit onClick={handleClickSubmit}>Submit</ButtonSubmit>
         </div>
       )}
     </Container>
