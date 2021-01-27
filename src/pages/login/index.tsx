@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 import axios from 'axios';
 import {API} from '../../constants/api';
 import {useRouter} from 'next/router';
-import {TOKEN} from '../../constants/token';
+import {TOKEN, TOKEN_TYPE} from '../../constants/token';
 
 const Container = styled.form`
   display: flex;
@@ -14,13 +14,13 @@ const Container = styled.form`
   width: 240px;
 `;
 
-const Nickname = styled.div`
+const NicknameContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0.5rem 0;
 `;
 
-const Password = styled.div`
+const PasswordContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0.5rem 0;
@@ -43,12 +43,12 @@ const Login: React.FC = () => {
     });
   };
 
-  const validate = (): boolean => {
-    if (nickname === null || nickname === '') {
+  const isNotVerified = () => {
+    if (!nickname) {
       alert('nickname을 입력해주세요.');
       return true;
     }
-    if (password === null || password === '') {
+    if (!password) {
       alert('password를 입력해주세요.');
       return true;
     }
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validate()) {
+    if (isNotVerified()) {
       return;
     }
     const request = {...input};
@@ -66,10 +66,12 @@ const Login: React.FC = () => {
       .post(API('Login'), request)
       .then(response => {
         localStorage.setItem(TOKEN, response.data.token);
+        localStorage.setItem(TOKEN_TYPE, response.data.type);
         alert('로그인되었습니다.');
         router.push('/');
       })
       .catch(e => {
+        console.error(e);
         alert('로그인에 실패했습니다. 다시 시도해주세요.');
       });
   };
@@ -78,7 +80,7 @@ const Login: React.FC = () => {
     <Layout>
       <h1>로그인</h1>
       <Container onSubmit={submit}>
-        <Nickname>
+        <NicknameContainer>
           <div>닉네임</div>
           <input
             type="text"
@@ -86,8 +88,8 @@ const Login: React.FC = () => {
             value={nickname}
             onChange={onChange}
           />
-        </Nickname>
-        <Password>
+        </NicknameContainer>
+        <PasswordContainer>
           <div>비밀번호</div>
           <input
             type="password"
@@ -95,7 +97,7 @@ const Login: React.FC = () => {
             value={password}
             onChange={onChange}
           />
-        </Password>
+        </PasswordContainer>
         <ApiButton content={'로그인 하기'} />
       </Container>
     </Layout>
