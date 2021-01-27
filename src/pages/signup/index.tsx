@@ -78,7 +78,9 @@ const Signup: React.FC = () => {
     const request = {
       nickname,
       password,
-      avatarUrl,
+      avatarUrl: avatarUrl
+        ? avatarUrl
+        : 'https://icon-library.com/images/icon-profile/icon-profile-22.jpg',
     };
 
     try {
