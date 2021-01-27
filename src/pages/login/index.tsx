@@ -44,11 +44,11 @@ const Login: React.FC = () => {
   };
 
   const validate = (): boolean => {
-    if (input.nickname == null || input.nickname == '') {
+    if (nickname === null || nickname === '') {
       alert('nickname을 입력해주세요.');
       return true;
     }
-    if (input.password == null || input.password == '') {
+    if (password === null || password === '') {
       alert('password를 입력해주세요.');
       return true;
     }
