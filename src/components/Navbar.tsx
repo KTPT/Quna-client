@@ -1,47 +1,80 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import * as React from 'react';
+import {useEffect, useState} from 'react';
+import {TOKEN} from '../constants/token';
 
 const Container = styled.div`
-  display: flex;
-  background: white;
-  vertical-align: center;
+  background: var(--white-yellow);
+  padding: 1rem 2rem;
+  border: 0.1px solid rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
 `;
 
-const Button = styled.button`
-  margin: 1rem;
+const LeftSideButton = styled.button`
+  display: inline-block;
   color: black;
   font-size: large;
-  background: white;
-  border-color: black;
-  border-width: thin;
+  background-color: var(--yellow);
+  border: 0.1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
   padding: 1rem;
   width: 8rem;
+
+  :hover {
+    background-color: rgba(255, 241, 118, 0.5);
+  }
 `;
 
-const LoginButton = styled.button`
-  margin-left: auto;
+const RightSideButton = styled.button`
+  display: inline-block;
+  float: right;
   color: black;
   font-size: large;
-  background: white;
-  border-color: black;
-  border-width: thin;
+  background-color: var(--yellow);
+  border: 0.1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 7px;
   padding: 1rem;
-  width: 8rem;
+  width: 7rem;
+  margin-left: 2rem;
+
+  :hover {
+    background-color: rgba(255, 241, 118, 0.5);
+  }
 `;
 
 const Navbar: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(false);
+
+  const getIsLogin = () => {
+    return localStorage.getItem(TOKEN) !== null;
+  };
+
+  useEffect(() => {
+    setIsLogin(getIsLogin());
+  }, []);
+
+  const clearToken = () => {
+    localStorage.removeItem(TOKEN);
+  };
+
   return (
     <Container>
       <Link href={'/'}>
-        <Button>Quna</Button>
+        <LeftSideButton>Quna</LeftSideButton>
       </Link>
-      <Link href={'/'}>
-        <Button>질문 목록</Button>
-      </Link>
-      <Link href={'/'}>
-        <LoginButton>로그인</LoginButton>
-      </Link>
+      {isLogin ? (
+        <RightSideButton onClick={clearToken}>로그아웃</RightSideButton>
+      ) : (
+        <>
+          <Link href={'/login'}>
+            <RightSideButton>로그인</RightSideButton>
+          </Link>
+          <Link href={'/signup'}>
+            <RightSideButton>회원가입</RightSideButton>
+          </Link>
+        </>
+      )}
     </Container>
   );
 };

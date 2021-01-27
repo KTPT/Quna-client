@@ -2,7 +2,6 @@ import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
-import Navbar from '../../../components/Navbar';
 import axios from 'axios';
 import {useRouter} from 'next/router';
 import {API} from '../../../constants/api';
@@ -63,7 +62,6 @@ const PostAnswer: React.FC = () => {
       <Head>
         <title>답변 남기기</title>
       </Head>
-      <Navbar />
       <Container>
         <AnswerInputContainer>
           <AnswerInput
