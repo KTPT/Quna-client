@@ -56,7 +56,7 @@ const Signup: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState('');
   const router = useRouter();
 
-  const verifyFails = () => {
+  const isNotVerified = () => {
     if (!nickname) {
       alert('닉네임을 입력해주세요.');
       return true;
@@ -71,7 +71,7 @@ const Signup: React.FC = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (verifyFails()) {
+    if (isNotVerified()) {
       return;
     }
 
