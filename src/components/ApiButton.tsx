@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import * as React from 'react';
-import Link from 'next/link';
-import {ParsedUrlQueryInput} from 'querystring';
 
 const Container = styled.button`
   max-width: 500px;
