@@ -3,9 +3,10 @@ import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
 import Navbar from '../../../components/Navbar';
-import axios from 'axios';
 import {useRouter} from 'next/router';
-import {API} from '../../../constants/api';
+import {APIRequest} from '../../../constants/api';
+import {isCreated, isUnauthorized} from "../../../constants/status";
+import {clearToken} from "../../../utils/tokenHandler";
 
 const Container = styled.div`
   display: flex;
@@ -40,19 +41,24 @@ const SubmitButton = styled.button`
 
 const PostAnswer: React.FC = () => {
   const [contents, setContents] = useState('');
-  const router = useRouter();
+  const {query: {id}, back, push} = useRouter();
 
   const createAnswer = async () => {
     if (contents.length === 0) {
       alert('답변을 입력해주세요');
       return;
     }
-    const {status, data} = await axios.post(
-      API('Answers', router.query.id as string),
-      {
-        contents,
-      }
-    );
+
+    const {status} = await APIRequest("POST", 'Answers', id as string, {contents});
+    if (isCreated(status)) {
+      alert("생성되었습니다.")
+      back();
+    }
+    if (isUnauthorized(status)) {
+      alert("로그인 만료");
+      clearToken();
+      await push('/login')
+    }
   };
 
   const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
@@ -63,7 +69,7 @@ const PostAnswer: React.FC = () => {
       <Head>
         <title>답변 남기기</title>
       </Head>
-      <Navbar />
+      <Navbar/>
       <Container>
         <AnswerInputContainer>
           <AnswerInput

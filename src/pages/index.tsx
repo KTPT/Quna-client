@@ -3,13 +3,13 @@ import QuestionList from '../components/QuestionList';
 import * as React from 'react';
 import {useEffect, useState} from 'react';
 import useSWR from 'swr';
-import {API} from '../constants/api';
+import {path} from '../constants/api';
 import fetcher from '../utils/fetcher';
 import QuestionInput from '../components/QuestionInput';
 import {Model, Question} from '../types/model';
 
 const Home: React.FC = () => {
-  const {data: questionsAPI} = useSWR(API('Questions'), fetcher);
+  const {data: questionsAPI} = useSWR(path('Questions'), fetcher);
   const [questions, setQuestions] = useState<Model<Question>[]>();
 
   useEffect(() => {

@@ -2,9 +2,9 @@ import * as React from 'react';
 import {useState} from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/Layout';
-import axios from 'axios';
-import {API} from '../../constants/api';
 import {useRouter} from 'next/router';
+import {APIRequest} from "../../constants/api";
+import {isCreated} from "../../constants/status";
 
 const Container = styled.form`
   display: flex;
@@ -54,7 +54,7 @@ const Signup: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
-  const router = useRouter();
+  const {push} = useRouter();
 
   const isNotVerified = () => {
     if (!nickname) {
@@ -84,9 +84,10 @@ const Signup: React.FC = () => {
     };
 
     try {
-      const {status} = await axios.post(API('Signup'), request);
-      if (status === 201) {
-        await router.push('/');
+      const {status} = await APIRequest("POST", "Signup", null, request);
+
+      if (isCreated(status)) {
+        await push('/');
         return;
       }
     } catch (e) {

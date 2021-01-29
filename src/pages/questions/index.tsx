@@ -7,7 +7,7 @@ import Button from '../../components/Button';
 import {Answer, Model, Question} from '../../types/model';
 import {useRouter} from "next/router";
 import useSWR from "swr";
-import {API} from "../../constants/api";
+import {path} from "../../constants/api";
 import fetcher from "../../utils/fetcher";
 
 interface Props {
@@ -17,8 +17,8 @@ interface Props {
 
 const ShowQuestion: React.FC<Props> = () => {
   const {query: {id}} = useRouter();
-  const {data: questionAPI} = useSWR(API('QuestionDetail', id as string), fetcher);
-  const {data: answersAPI} = useSWR(API('Answers', id as string), fetcher);
+  const {data: questionAPI} = useSWR(path('QuestionDetail', id as string), fetcher);
+  const {data: answersAPI} = useSWR(path('Answers', id as string), fetcher);
   const [question, setQuestion] = useState<Model<Question>>();
   const [answers, setAnswers] = useState<Model<Answer>[]>();
 

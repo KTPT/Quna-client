@@ -3,10 +3,10 @@ import {useState} from 'react';
 import ApiButton from '../../components/ApiButton';
 import styled from 'styled-components';
 import Layout from '../../components/Layout';
-import axios from 'axios';
-import {API} from '../../constants/api';
 import {useRouter} from 'next/router';
-import {TOKEN, TOKEN_TYPE} from '../../constants/token';
+import {storeToken} from "../../utils/tokenHandler";
+import {APIRequest} from "../../constants/api";
+import {isOk} from "../../constants/status";
 
 const Container = styled.form`
   display: flex;
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
   });
 
   const {nickname, password} = input;
-  const router = useRouter();
+  const {back} = useRouter();
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     const {value, name} = e.currentTarget;
@@ -62,18 +62,18 @@ const Login: React.FC = () => {
     }
     const request = {...input};
 
-    await axios
-      .post(API('Login'), request)
-      .then(response => {
-        localStorage.setItem(TOKEN, response.data.token);
-        localStorage.setItem(TOKEN_TYPE, response.data.type);
+    try {
+      const {data: {type, token}, status} = await APIRequest("POST", 'Login', null, request);
+
+      if (isOk(status)) {
+        storeToken(type, token);
         alert('로그인되었습니다.');
-        router.push('/');
-      })
-      .catch(e => {
-        console.error(e);
-        alert('로그인에 실패했습니다. 다시 시도해주세요.');
-      });
+        back();
+      }
+    } catch (e) {
+      console.error(e);
+      alert('로그인에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -98,7 +98,7 @@ const Login: React.FC = () => {
             onChange={onChange}
           />
         </PasswordContainer>
-        <ApiButton content={'로그인 하기'} />
+        <ApiButton content={'로그인 하기'}/>
       </Container>
     </Layout>
   );

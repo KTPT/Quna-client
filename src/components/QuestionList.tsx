@@ -12,13 +12,13 @@ const Container = styled.div`
 `;
 
 const QuestionList: React.FC<{data: Model<Question>[]}> = ({data}) => {
-  return (
+  return data ? (
     <Container>
       {data.map(question => (
         <QuestionListItem data={question} />
       ))}
     </Container>
-  );
+  ): <Container />
 };
 
 export default QuestionList;
