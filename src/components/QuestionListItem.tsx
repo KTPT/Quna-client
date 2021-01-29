@@ -19,12 +19,12 @@ const Title = styled.div`
   font-weight: 600;
 `;
 
-const QuestionListItem: React.FC<{data: Model<Question>}> = ({data}) => {
+const QuestionListItem: React.FC<{data: Model<Question>}> = ({data: {id, title}}) => {
   return (
-    <Link href={`/questions/${data.id}`}>
+    <Link href={{path: 'questions', query: id}} as={'questions'}>
       <Container>
         <Questioner />
-        <Title>{data.title}</Title>
+        <Title>{title}</Title>
       </Container>
     </Link>
   );

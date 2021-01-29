@@ -1,15 +1,17 @@
 const BASE_URL = 'http://localhost:8080';
 
 export const API = (
-  model: 'Question' | 'Answer' | 'Signup' | 'Login' | string,
-  questionsId?: string
+  model: 'Questions' | 'Answers' | 'Signup' | 'Login' | 'QuestionDetail',
+  questionsId?: string | number
 ) =>
-  model === 'Question'
+  model === 'Questions'
     ? `${BASE_URL}/questions`
-    : model === 'Answer'
+    : model === 'QuestionDetail'
+    ? `${BASE_URL}/questions/${questionsId}`
+    : model === 'Answers'
     ? `${BASE_URL}/questions/${questionsId}/answers`
     : model === 'Login'
     ? `${BASE_URL}/login`
     : model === 'Signup'
-    ? `${BASE_URL}/members/`
+    ? `${BASE_URL}/members`
     : '';

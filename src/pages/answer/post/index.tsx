@@ -48,7 +48,7 @@ const PostAnswer: React.FC = () => {
       return;
     }
     const {status, data} = await axios.post(
-      API('Answer', router.query.id as string),
+      API('Answers', router.query.id as string),
       {
         contents,
       }
