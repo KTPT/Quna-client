@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import * as React from 'react';
 import {useContext, useEffect} from 'react';
-import {TOKEN, TOKEN_TYPE} from '../constants/token';
 import {MemberContext} from "../contexts/MemberContext";
+import {clearToken, getIsLogin} from "../utils/tokenHandler";
 
 const Container = styled.div`
   background: var(--white-yellow);
@@ -47,18 +47,13 @@ const RightSideButton = styled.button`
 const Navbar: React.FC = () => {
   const {member: {isLogin}, setMember} = useContext(MemberContext);
 
-  const getIsLogin = () => {
-    return localStorage.getItem(TOKEN) !== null;
-  };
-
   useEffect(() => {
     setMember({isLogin: getIsLogin()});
   }, []);
 
-  const clearToken = () => {
-    localStorage.removeItem(TOKEN);
-    localStorage.removeItem(TOKEN_TYPE);
-    setMember({isLogin: getIsLogin()});
+  const logout = () => {
+    clearToken();
+    setMember({isLogin: false});
   };
 
   return (
@@ -67,7 +62,7 @@ const Navbar: React.FC = () => {
         <LeftSideButton>Quna</LeftSideButton>
       </Link>
       {isLogin ? (
-        <RightSideButton onClick={clearToken}>로그아웃</RightSideButton>
+        <RightSideButton onClick={logout}>로그아웃</RightSideButton>
       ) : (
         <>
           <Link href={'/login'}>

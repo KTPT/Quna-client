@@ -9,3 +9,5 @@ export const storeToken = (type: string, token: string) => {
   localStorage.setItem(TOKEN_TYPE, type);
   localStorage.setItem(TOKEN, token);
 };
+
+export const getIsLogin = () => localStorage.getItem(TOKEN) !== null
