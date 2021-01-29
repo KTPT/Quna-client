@@ -3,7 +3,7 @@ import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
 import {useRouter} from 'next/router';
-import {APIRequest} from '../../../constants/api';
+import {fetchAPI} from '../../../constants/api';
 import {isCreated, isUnauthorized} from "../../../constants/status";
 import {clearToken} from "../../../utils/tokenHandler";
 
@@ -48,7 +48,7 @@ const PostAnswer: React.FC = () => {
         return;
       }
 
-      APIRequest("POST", 'Answers', id as string, {contents})
+      fetchAPI("POST", 'Answers', id as string, {contents})
         .then(({status}) => {
             if (isCreated(status)) {
               alert("생성되었습니다.")

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Layout from '../../components/Layout';
 import {useRouter} from 'next/router';
 import {storeToken} from "../../utils/tokenHandler";
-import {APIRequest} from "../../constants/api";
+import {fetchAPI} from "../../constants/api";
 import {isOk} from "../../constants/status";
 import {MemberContext} from "../../contexts/MemberContext";
 
@@ -66,7 +66,7 @@ const Login: React.FC = () => {
     const request = {...input};
 
     try {
-      const {data: {type, token}, status} = await APIRequest("POST", 'Login', null, request);
+      const {data: {type, token}, status} = await fetchAPI("POST", 'Login', null, request);
 
       if (isOk(status)) {
         storeToken(type, token);

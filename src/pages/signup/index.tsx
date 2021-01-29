@@ -3,7 +3,7 @@ import {useState} from 'react';
 import styled from 'styled-components';
 import Layout from '../../components/Layout';
 import {useRouter} from 'next/router';
-import {APIRequest} from "../../constants/api";
+import {fetchAPI} from "../../constants/api";
 import {isCreated} from "../../constants/status";
 
 const Container = styled.form`
@@ -84,7 +84,7 @@ const Signup: React.FC = () => {
     };
 
     try {
-      const {status} = await APIRequest("POST", "Signup", null, request);
+      const {status} = await fetchAPI("POST", "Signup", null, request);
 
       if (isCreated(status)) {
         await push('/');
