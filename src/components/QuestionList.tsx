@@ -15,7 +15,7 @@ const QuestionList: React.FC<{data: Model<Question>[]}> = ({data}) => {
   return data ? (
     <Container>
       {data.map(question => (
-        <QuestionListItem data={question} />
+        <QuestionListItem key={question.id} data={question} />
       ))}
     </Container>
   ): <Container />
