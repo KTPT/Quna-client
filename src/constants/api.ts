@@ -22,22 +22,21 @@ export const path = (
           : '';
 
 export const APIRequest = async (method: 'POST' | 'GET' | 'PUT' | 'DELETE', api: API, questionsId?: string | number, content?: {}) => {
+  if (method === 'POST' && api === 'Signup') {
+    return await axios.post(path(api, questionsId), content);
+  }
   if (method === 'POST') {
-    return await axios.post(path(api, questionsId),
+    return await axios.post(path(api, questionsId), content,
       {
-        content,
-      }, {
-        headers: {Authorization: `${TOKEN_TYPE} ${TOKEN}`}
+        headers: {Authorization: `${localStorage.getItem(TOKEN_TYPE)} ${localStorage.getItem(TOKEN)}`}
       })
   }
   if (method === 'GET') {
     return await axios.get(path(api, questionsId))
   }
   if (method === 'PUT') {
-    return await axios.put(path(api, questionsId),
+    return await axios.put(path(api, questionsId), content,
       {
-        content,
-      }, {
         headers: {Authorization: `${TOKEN_TYPE} ${TOKEN}`}
       })
   }

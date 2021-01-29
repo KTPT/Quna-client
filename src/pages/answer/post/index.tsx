@@ -39,46 +39,53 @@ const SubmitButton = styled.button`
 `;
 
 const PostAnswer: React.FC = () => {
-  const [contents, setContents] = useState('');
-  const {query: {id}, back, push} = useRouter();
+    const [contents, setContents] = useState('');
+    const {query: {id}, back, push} = useRouter();
 
-  const createAnswer = async () => {
-    if (contents.length === 0) {
-      alert('답변을 입력해주세요');
-      return;
+    const createAnswer = async () => {
+      if (contents.length === 0) {
+        alert('답변을 입력해주세요');
+        return;
+      }
+
+      APIRequest("POST", 'Answers', id as string, {contents})
+        .then(({status}) => {
+            if (isCreated(status)) {
+              alert("생성되었습니다.")
+              back();
+            }
+            if (isUnauthorized(status)) {
+              alert("로그인 만료");
+              clearToken();
+              push('/login')
+            }
+          }
+        ).catch((e) => {
+        console.error(e);
+        alert("생성에 실패하였습니다.");
+      });
     }
 
-    const {status} = await APIRequest("POST", 'Answers', id as string, {contents});
-    if (isCreated(status)) {
-      alert("생성되었습니다.")
-      back();
-    }
-    if (isUnauthorized(status)) {
-      alert("로그인 만료");
-      clearToken();
-      await push('/login')
-    }
-  };
+    const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
+      setContents(value);
 
-  const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
-    setContents(value);
-
-  return (
-    <>
-      <Head>
-        <title>답변 남기기</title>
-      </Head>
-      <Container>
-        <AnswerInputContainer>
-          <AnswerInput
-            placeholder={'답변을 남겨주세요.'}
-            onChange={handleChange}
-          />
-          <SubmitButton onClick={createAnswer}>남기기</SubmitButton>
-        </AnswerInputContainer>
-      </Container>
-    </>
-  );
-};
+    return (
+      <>
+        <Head>
+          <title>답변 남기기</title>
+        </Head>
+        <Container>
+          <AnswerInputContainer>
+            <AnswerInput
+              placeholder={'답변을 남겨주세요.'}
+              onChange={handleChange}
+            />
+            <SubmitButton onClick={createAnswer}>남기기</SubmitButton>
+          </AnswerInputContainer>
+        </Container>
+      </>
+    );
+  }
+;
 
 export default PostAnswer;

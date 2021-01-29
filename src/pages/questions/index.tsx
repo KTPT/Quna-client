@@ -20,7 +20,7 @@ const ShowQuestion: React.FC<Props> = () => {
   const {data: questionAPI} = useSWR(path('QuestionDetail', id as string), fetcher);
   const {data: answersAPI} = useSWR(path('Answers', id as string), fetcher);
   const [question, setQuestion] = useState<Model<Question>>();
-  const [answers, setAnswers] = useState<Model<Answer>[]>();
+  const [answers, setAnswers] = useState<Model<Answer>[]>(null);
 
   useEffect(() => {
     if (questionAPI) {
@@ -31,15 +31,9 @@ const ShowQuestion: React.FC<Props> = () => {
     }
   }, [questionAPI, answersAPI]);
 
-  return question && answers ? (
+  return answers ? (
     <Layout>
       <QuestionDetail props={question}/>
-      <Button
-        content={'나도 답변 달래요!'}
-        pathname={'/answer/post'}
-        query={{id: question.id}}
-        hideQuery={true}
-      />
       {answers.map(answer => (
         <AnswerDetail key={answer.id} props={answer}/>
       ))}

@@ -21,7 +21,7 @@ const Title = styled.div`
 
 const QuestionListItem: React.FC<{data: Model<Question>}> = ({data: {id, title}}) => {
   return (
-    <Link href={{path: 'questions', query: id}} as={'questions'}>
+    <Link href={{pathname: '/questions', query: {id}}} as={'/questions'}>
       <Container>
         <Questioner />
         <Title>{title}</Title>
