@@ -4,6 +4,7 @@ import * as React from 'react';
 import {useContext, useEffect} from 'react';
 import {MemberContext} from "../contexts/MemberContext";
 import {clearToken, getIsLogin} from "../utils/tokenHandler";
+import {useRouter} from "next/router";
 
 const Container = styled.div`
   background: var(--white-yellow);
@@ -46,14 +47,16 @@ const RightSideButton = styled.button`
 
 const Navbar: React.FC = () => {
   const {member: {isLogin}, setMember} = useContext(MemberContext);
+  const {push} = useRouter();
 
   useEffect(() => {
     setMember({isLogin: getIsLogin()});
   }, []);
 
-  const logout = () => {
+  const logout = async () => {
     clearToken();
     setMember({isLogin: false});
+    await push('/');
   };
 
   return (
