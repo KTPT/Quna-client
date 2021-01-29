@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import ApiButton from '../../components/ApiButton';
 import styled from 'styled-components';
 import Layout from '../../components/Layout';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import {API} from '../../constants/api';
 import {useRouter} from 'next/router';
 import {TOKEN, TOKEN_TYPE} from '../../constants/token';
+import {MemberContext} from "../../contexts/MemberContext";
 
 const Container = styled.form`
   display: flex;
@@ -27,13 +28,15 @@ const PasswordContainer = styled.div`
 `;
 
 const Login: React.FC = () => {
+  const {member, setMember} = useContext(MemberContext);
   const [input, setInput] = useState({
     nickname: '',
     password: '',
   });
+  const router = useRouter();
 
   const {nickname, password} = input;
-  const router = useRouter();
+  const {isLogin} = member;
 
   const onChange = (e: React.FormEvent<HTMLInputElement>) => {
     const {value, name} = e.currentTarget;
@@ -64,14 +67,16 @@ const Login: React.FC = () => {
 
     await axios
       .post(API('Login'), request)
-      .then(response => {
-        localStorage.setItem(TOKEN, response.data.token);
-        localStorage.setItem(TOKEN_TYPE, response.data.type);
+      .then(({data: {token, type}}) => {
+        localStorage.setItem(TOKEN, token);
+        localStorage.setItem(TOKEN_TYPE, type);
         alert('로그인되었습니다.');
+        setMember({isLogin: true});
         router.push('/');
       })
       .catch(e => {
         console.error(e);
+        setMember({isLogin: false});
         alert('로그인에 실패했습니다. 다시 시도해주세요.');
       });
   };

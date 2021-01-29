@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import Link from 'next/link';
 import * as React from 'react';
-import {useEffect, useState} from 'react';
-import {TOKEN} from '../constants/token';
+import {useContext, useEffect} from 'react';
+import {TOKEN, TOKEN_TYPE} from '../constants/token';
+import {MemberContext} from "../contexts/MemberContext";
 
 const Container = styled.div`
   background: var(--white-yellow);
@@ -44,18 +45,20 @@ const RightSideButton = styled.button`
 `;
 
 const Navbar: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const {member: {isLogin}, setMember} = useContext(MemberContext);
 
   const getIsLogin = () => {
     return localStorage.getItem(TOKEN) !== null;
   };
 
   useEffect(() => {
-    setIsLogin(getIsLogin());
+    setMember({isLogin: getIsLogin()});
   }, []);
 
   const clearToken = () => {
     localStorage.removeItem(TOKEN);
+    localStorage.removeItem(TOKEN_TYPE);
+    setMember({isLogin: getIsLogin()});
   };
 
   return (
