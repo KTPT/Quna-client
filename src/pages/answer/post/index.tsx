@@ -2,10 +2,10 @@ import * as React from 'react';
 import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Head from 'next/head';
-import Navbar from '../../../components/Navbar';
-import axios from 'axios';
 import {useRouter} from 'next/router';
-import {API} from '../../../constants/api';
+import {fetchAPI} from '../../../constants/api';
+import {isCreated, isUnauthorized} from "../../../constants/status";
+import {clearToken} from "../../../utils/tokenHandler";
 
 const Container = styled.div`
   display: flex;
@@ -39,42 +39,53 @@ const SubmitButton = styled.button`
 `;
 
 const PostAnswer: React.FC = () => {
-  const [contents, setContents] = useState('');
-  const router = useRouter();
+    const [contents, setContents] = useState('');
+    const {query: {id}, back, push} = useRouter();
 
-  const createAnswer = async () => {
-    if (contents.length === 0) {
-      alert('답변을 입력해주세요');
-      return;
-    }
-    const {status, data} = await axios.post(
-      API('Answer', router.query.id as string),
-      {
-        contents,
+    const createAnswer = async () => {
+      if (contents.length === 0) {
+        alert('답변을 입력해주세요');
+        return;
       }
+
+      fetchAPI("POST", 'Answers', id as string, {contents})
+        .then(({status}) => {
+            if (isCreated(status)) {
+              alert("생성되었습니다.")
+              back();
+            }
+            if (isUnauthorized(status)) {
+              alert("로그인 만료");
+              clearToken();
+              push('/login')
+            }
+          }
+        ).catch((e) => {
+        console.error(e);
+        alert("생성에 실패하였습니다.");
+      });
+    }
+
+    const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
+      setContents(value);
+
+    return (
+      <>
+        <Head>
+          <title>답변 남기기</title>
+        </Head>
+        <Container>
+          <AnswerInputContainer>
+            <AnswerInput
+              placeholder={'답변을 남겨주세요.'}
+              onChange={handleChange}
+            />
+            <SubmitButton onClick={createAnswer}>남기기</SubmitButton>
+          </AnswerInputContainer>
+        </Container>
+      </>
     );
-  };
-
-  const handleChange = ({target: {value}}: ChangeEvent<HTMLTextAreaElement>) =>
-    setContents(value);
-
-  return (
-    <>
-      <Head>
-        <title>답변 남기기</title>
-      </Head>
-      <Navbar />
-      <Container>
-        <AnswerInputContainer>
-          <AnswerInput
-            placeholder={'답변을 남겨주세요.'}
-            onChange={handleChange}
-          />
-          <SubmitButton onClick={createAnswer}>남기기</SubmitButton>
-        </AnswerInputContainer>
-      </Container>
-    </>
-  );
-};
+  }
+;
 
 export default PostAnswer;

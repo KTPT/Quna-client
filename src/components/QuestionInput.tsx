@@ -1,6 +1,12 @@
-import React, {ChangeEvent, useState} from 'react';
+import * as React from 'react';
+import {ChangeEvent, useState, useContext, useEffect} from 'react';
+import {MemberContext} from "../contexts/MemberContext";
 import styled from 'styled-components';
 import Questioner from './Questioner';
+import {fetchAPI} from '../constants/api';
+import {isCreated} from '../constants/status';
+import {getIsLogin} from "../utils/tokenHandler";
+import {useRouter} from "next/router";
 
 const Container = styled.div`
   /*Layout 적용 이후 width 변경 요망* */
@@ -29,6 +35,7 @@ const InputTitle = styled.input.attrs({
   width: 100%;
   border: 0.1px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
+
   ::placeholder {
     color: rgba(0, 0, 0, 0.2);
     font-weight: 500;
@@ -68,12 +75,62 @@ const ButtonSubmit = styled.button`
 `;
 
 const QuestionInput: React.FC = () => {
+  const {member: {isLogin}, setMember} = useContext(MemberContext);
   const [isFolded, setIsFolded] = useState<boolean>(true);
   const [title, setTitle] = useState<string>('');
   const [mainContent, setMainContent] = useState<string>('');
+  const {push} = useRouter();
 
-  const handleClick = () => {
-    setIsFolded(!isFolded);
+  useEffect(() => {
+    setMember({isLogin: getIsLogin()});
+  }, []);
+
+  const isNotVerified = () => {
+    if (!title) {
+      alert('질문 제목을 입력해주세요.');
+      return true;
+    } else if (!mainContent) {
+      alert('질문 내용을 입력해주세요.');
+      return true;
+    } else if (!isLogin) {
+      alert('로그인이 필요합니다.');
+      return true;
+    }
+    return false;
+  }
+
+  const handleClickNext = () => {
+    if (!title) {
+      alert('질문 제목을 입력해주세요.');
+      return;
+    }
+
+    setIsFolded(false);
+
+  };
+
+  const handleClickSubmit = async () => {
+    if (isNotVerified()) {
+      return;
+    }
+    /**responderId 관련 로직 확인 필요 */
+    const request = {
+      title : title,
+      contents : mainContent,
+      responderId : null,
+    }
+
+    try {
+      const {status} = await fetchAPI('POST', 'Questions', null, request);
+    
+      if (isCreated(status)) {
+        alert('질문이 등록되었습니다.');
+        await push('/');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('질문 등록에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -90,18 +147,18 @@ const QuestionInput: React.FC = () => {
         <>
           <HeaderContainer>
             <Questioner />
-            <InputTitle onChange={handleTitleChange} value={title} />
-            <ButtonNext onClick={handleClick}>Next</ButtonNext>
+            <InputTitle onChange={handleTitleChange} />
+            <ButtonNext onClick={handleClickNext}>Next</ButtonNext>
           </HeaderContainer>
         </>
       ) : (
         <div>
           <HeaderContainer>
             <Questioner />
-            <InputTitle value={title} />
+            <InputTitle onChange={handleTitleChange} defaultValue={title}/>
           </HeaderContainer>
           <InputMain onChange={handleMainChange} value={mainContent} />
-          <ButtonSubmit onClick={handleClick}>Submit</ButtonSubmit>
+          <ButtonSubmit onClick={handleClickSubmit}>Submit</ButtonSubmit>
         </div>
       )}
     </Container>
