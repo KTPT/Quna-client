@@ -1,9 +1,13 @@
 import axios from "axios";
 import {TOKEN, TOKEN_TYPE} from "./token";
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://13.124.134.56:8080';
 
 type API = 'Questions' | 'Answers' | 'Signup' | 'Login' | 'QuestionDetail';
+
+const client = axios.create({
+  baseURL: "",
+})
 
 export const getAPIPath = (
   model: API,
@@ -22,26 +26,28 @@ export const getAPIPath = (
           : '';
 
 export const fetchAPI = async (method: 'POST' | 'GET' | 'PUT' | 'DELETE', api: API, questionsId?: string | number, content?: {}) => {
+  
+  
   if (method === 'POST' && api === 'Signup') {
-    return await axios.post(getAPIPath(api, questionsId), content);
+    return await client.post(getAPIPath(api, questionsId), content);
   }
   if (method === 'POST') {
-    return await axios.post(getAPIPath(api, questionsId), content,
+    return await client.post(getAPIPath(api, questionsId), content,
       {
         headers: {Authorization: `${localStorage.getItem(TOKEN_TYPE)} ${localStorage.getItem(TOKEN)}`}
       })
   }
   if (method === 'GET') {
-    return await axios.get(getAPIPath(api, questionsId))
+    return await client.get(getAPIPath(api, questionsId))
   }
   if (method === 'PUT') {
-    return await axios.put(getAPIPath(api, questionsId), content,
+    return await client.put(getAPIPath(api, questionsId), content,
       {
         headers: {Authorization: `${TOKEN_TYPE} ${TOKEN}`}
       })
   }
   if (method === 'DELETE') {
-    return await axios.delete(getAPIPath(api, questionsId), {
+    return await client.delete(getAPIPath(api, questionsId), {
       headers: {Authorization: `${TOKEN_TYPE} ${TOKEN}`}
     })
   }
