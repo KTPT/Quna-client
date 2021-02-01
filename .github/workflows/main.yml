@@ -25,6 +25,32 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        
+
       - name: Build ReactJS
         run: npm run build
+
+#      # 찍어보기
+#      - name: Commit id test
+#        run: |
+#          COMMIT_ID=$(git log | head -n 1)
+#          echo "${COMMIT_ID:7}"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_IAM_MANAGER_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_IAM_MANAGER_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: run code deploy
+        run: |
+          COMMIT_ID=$(git log | head -n 1)
+          echo "${COMMIT_ID:7}"
+          aws deploy create-deployment \
+          --application-name quna-prod \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --deployment-group-name quna-front \
+          --file-exists-behavior OVERWRITE \
+          --description "quna front deployment" \
+           --github-location repository=ktpt/Quna-client,commitId=${COMMIT_ID:7} \
+
