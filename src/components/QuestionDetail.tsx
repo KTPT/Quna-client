@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {Model, Question} from '../types/model';
 import * as React from 'react';
+import {removeSludge} from "../utils/dateHandler";
 
 const Container = styled.div`
   width: 80%;
@@ -69,7 +70,7 @@ const QuestionDetail: React.FC<{props: Model<Question>}> = ({props}) => {
           <Avatar>
             <AvatarImage src="/jobs_avatar.png" alt="avatar" />
           </Avatar>
-          <Created>{props.createdAt}</Created>
+          <Created>{removeSludge(props.createdAt)}</Created>
         </Left>
         <Title>{props.title}</Title>
       </Top>

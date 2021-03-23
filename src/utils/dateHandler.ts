@@ -1,0 +1,1 @@
+export const removeSludge = (date: string) => date.slice(0, date.indexOf('T'));

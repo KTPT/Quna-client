@@ -1,4 +1,5 @@
-import React, {ChangeEvent, useState} from 'react';
+import * as React from 'react';
+import {ChangeEvent, useState} from 'react';
 import styled from 'styled-components';
 import Questioner from './Questioner';
 
@@ -29,6 +30,7 @@ const InputTitle = styled.input.attrs({
   width: 100%;
   border: 0.1px solid rgba(0, 0, 0, 0.2);
   border-radius: 7px;
+
   ::placeholder {
     color: rgba(0, 0, 0, 0.2);
     font-weight: 500;
@@ -89,18 +91,18 @@ const QuestionInput: React.FC = () => {
       {isFolded ? (
         <>
           <HeaderContainer>
-            <Questioner />
-            <InputTitle onChange={handleTitleChange} value={title} />
+            <Questioner/>
+            <InputTitle onChange={handleTitleChange} value={title}/>
             <ButtonNext onClick={handleClick}>Next</ButtonNext>
           </HeaderContainer>
         </>
       ) : (
         <div>
           <HeaderContainer>
-            <Questioner />
-            <InputTitle value={title} />
+            <Questioner/>
+            <InputTitle value={title}/>
           </HeaderContainer>
-          <InputMain onChange={handleMainChange} value={mainContent} />
+          <InputMain onChange={handleMainChange} value={mainContent}/>
           <ButtonSubmit onClick={handleClick}>Submit</ButtonSubmit>
         </div>
       )}
